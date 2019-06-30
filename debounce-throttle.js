@@ -7,6 +7,6 @@ const debounce = function(func, delay){
     var context = this;
     var args = arguments;
     clearTimeout(delayBounce);  //Passing an invalid ID to clearTimeout() silently does nothing; no exception is thrown.
-    delayBounce = setTimeout(() => { func.apply(context, ...args) }, delay);
+    delayBounce = setTimeout(() => { func.apply(context, args) }, delay);
   } 
 }
