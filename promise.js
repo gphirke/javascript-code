@@ -21,3 +21,16 @@ waitThreeSeconds()
  })
  // we don't need a catch method in this example, because the
  // promise has no potential to fail (be rejected)
+
+//*********** example 2 ****************//
+
+
+const prom = new Promise(function(resolve, reject) {
+  setTimeout(() => {
+    resolve('Promise is created and consumed');
+  }, 200);
+});
+
+prom.then(value => {
+  console.log(value);
+});
