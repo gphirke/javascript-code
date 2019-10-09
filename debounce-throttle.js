@@ -10,3 +10,27 @@ const debounce = function(func, delay){
     delayBounce = setTimeout(() => { func.apply(context, args) }, delay);
   } 
 }
+
+
+//throttle
+
+var expensive = function(){
+	console.log("expensive functionnns");
+}
+
+window.addEventListener("resize", throttle(expensive, 500))
+
+function throttle(expensiveFun, limit){
+	let flag = true;
+	return function(){
+		let context = this;
+		let args = arguments;
+		if(flag){
+			expensiveFun.apply(context, args);
+			flag = false;
+			setTimeout(function(){
+				flag = true;
+			}, limit);
+		}
+	}
+}
