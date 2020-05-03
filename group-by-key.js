@@ -53,3 +53,23 @@ function groupBy(designation) {
 }
 
 console.log(groupBy("designation"));
+
+
+// Solution 2: 
+//Without using map
+
+var groupByResult = (function(groupBy) {
+  var groupByResult = {};
+  for (var ele of obj) {
+    if (!groupByResult[ele[groupBy]]) {
+      groupByResult[ele[groupBy]] = [];
+    }
+    // groupByResult[ele[groupBy]].push(copyObjectExcept(ele, groupBy));
+     groupByResult[ele[groupBy]].push(ele);
+  }
+  return groupByResult;
+}("designation"))
+
+
+console.log(groupByResult);
+
