@@ -35,7 +35,7 @@ function deepClone(obj){
 		return arr;
 	}
 
-	if(typeof(obj[key]) == "object"){
+	if(typeof(obj) == "object"){
 		var cloned = {};
 		for(let key in obj){
 			cloned[key] = deepClone(obj[key])
