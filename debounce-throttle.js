@@ -1,5 +1,6 @@
 
 //debouncing limits the rate at which a function gets invoked.
+//useful to improve the performance of large scale web applications.
 
 const debounce = function(func, delay){
   var delayBounce;
