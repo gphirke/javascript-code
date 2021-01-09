@@ -8,11 +8,14 @@ window.id = 8;
 // window, obj
 
 Array.prototype.myMap = function(cb, context){
-  var arr = [...this];
+  var arr = [...this];   // making original array immutable
   var newArr = [];
+  var newCB = cb.bind(context);
   for(let i=0, len = arr.length; i<len; i++){
   	if (context) {
-    	newArr.push(cb.call(context, arr[i], i, arr));
+    	// newArr.push(cb.call(context, arr[i], i, arr));
+        //or
+        newArr.push(newCB(arr[i], i, arr));
     }else{
     	newArr.push(cb(arr[i], i, arr));
     }
