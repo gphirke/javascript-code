@@ -1,0 +1,38 @@
+/*
+window.id = 8;
+[1,2,3].myMap(function(item, idx, arr){
+    return `${this.id} ${item}`
+}, { id: 9 });
+*/
+
+// window, obj
+
+Array.prototype.myMap = function(cb, context){
+  var arr = [...this];
+  var newArr = [];
+  for(let i=0, len = arr.length; i<len; i++){
+  	if (context) {
+    	newArr.push(cb.call(context, arr[i], i, arr));
+    }else{
+    	newArr.push(cb(arr[i], i, arr));
+    }
+  }
+  return newArr;
+}
+
+//window.id = 8;
+
+//o/p should be ['9 1', '9 2', '9 3']
+[1,2,3].myMap(function(item, idx, arr){
+    return `${this.id} ${item}`
+}, { id: 9 });
+
+
+//o/p should be ['9 1', '9 2', '9 3']
+[1,2,3].myMap(function(item, idx, arr){
+    arr.push(1);
+    return `${this.id} ${item}`
+}, { id: 9 });
+
+
+
