@@ -144,6 +144,128 @@ function job2() {
     });
 }
 
+
+//1. the broken chain 
+
+function test() {
+    var promise = job();
+
+    promise.then(function(data) {
+        doSomething(data);
+    });
+
+    return promise;
+}
+
+// The problem with above snippet is that we return the initial promise. Not the result of promise.then. The result of promise.then is a lost promise because no one can interact with it
+
+
+//correct version of above snippet
+
+function test() {
+    return job().then(function(data) {
+        doSomething(data);
+    });
+}
+
+//2. the ghost promise
+
+function job() {
+    if (test) {
+        return aNewPromise();
+    } else {
+        return 42;
+    }
+}
+
+var result = job();
+//we need to add check here
+if (typeof job === 'object' && typeof job.then === 'function') {
+    // ...
+} else {
+    // ...
+}
+
+
+//correct version of above snippet 
+
+function job() {
+    if (test) {
+        return aNewPromise();
+    } else {
+        return Promise.resolve(42); // return an anto-resolved promise with `42` in data.
+    }
+}
+
+//3. Forgotten promise 
+
+
+//You call a method that returns a promise but you create your own promise:
+function test() {
+    var promise = job();
+
+    return new Promise(function(resolve, reject) {
+        promise.then(function(data) {
+            data = doSomething(data);
+            resolve(data);
+        }, function(error) {
+            reject(error);
+        });
+    });
+}
+
+//correct version of above snippet is,
+function test() {
+    return job().then(function(data) {
+        return doSomething(data);
+    });
+}
+
+
+/*Promise.all*/
+
+// if you want to start multiple asynchronous jobs at once and you want results even if a job is rejected?
+
+let p1 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 500, 'p1');
+});
+
+let p2 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 1000, 'p2');
+});
+
+let p3 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 1200, 'p3');
+});
+
+let p4 = new Promise(function(resolve, reject) {
+    setTimeout(reject, 300, 'p4');
+});
+
+let p5 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 800, 'p5');
+});
+
+let promise = Promise.all([p1.catch(function() {}), p2.catch(function() {}), p3.catch(function() {}), p4.catch(function() {}), p5.catch(function() {})]);
+
+promise
+
+.then(function(data) {
+    data.forEach(function(data) {
+        console.log(data);
+    });
+})
+
+.catch(function(error) {
+    console.error('error', error);
+});
+
+
+
+
+
+
+
 //*********** example 2 ****************//
 const prom = new Promise(function(resolve, reject) {
   setTimeout(() => {
