@@ -21,3 +21,45 @@ console.log(sum(1, 2, 3));
 var currFun = Curry(sum);
 
 console.log(currFun(1)()(2,3))
+
+
+// scond type of problem
+
+
+//write a function which should return the sum when compares to number; 
+
+// console.log(add(1)(2)(3)==6);//true
+//console.log(add(1)(2)(3)(4)==10);//true
+
+function add(n){
+  var addNext = function(x) {
+    return add(n + x);
+  };
+
+  addNext.valueOf = function() {
+    return n;
+  }
+  ;
+
+  return addNext;
+}
+
+
+//second solution 
+
+function add1(x){
+  let sum = x;
+  return function resultFn(y){
+   sum +=y;
+   resultFn.result = sum;
+   return resultFn;
+  }
+}
+
+add1(1)(2)(3).result;
+
+
+
+
+
+
