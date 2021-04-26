@@ -13,6 +13,19 @@ const debounce = function(func, delay){
 }
 
 
+<input type="text" onkeyup="betterFunction()" />
+
+
+
+function getData() {
+  console.log("fetching function....");
+}
+
+
+var betterFunction = debounce(getData, 300);
+
+
+
 //throttle
 
 var expensive = function(){
